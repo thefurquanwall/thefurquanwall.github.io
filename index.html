@@ -1,36 +1,84 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <title>TheFurquanWall</title>
 <style>
-body{background:#000;margin:0;padding:0}
-h1{color:#fff;text-align:center;font-family:serif;padding:20px;margin:0}
-img{width:100%;display:block;margin-bottom:3px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#000;color:#fff;font-family:system-ui,serif;overflow-x:hidden}
+h1{position:sticky;top:0;z-index:10;text-align:center;padding:18px;font-size:22px;letter-spacing:1px;background:rgba(0,0,0,0.9);backdrop-filter:blur(10px);border-bottom:1px solid #111}
+#wall{display:flex;flex-direction:column;gap:2px;padding:2px}
+.card{position:relative;width:100%;overflow:hidden;background:#0a0a0a;cursor:pointer;transform:scale(1);transition:transform 0.35s cubic-bezier(.2,.8,.2,1)}
+.card img{width:100%;display:block;transition:transform 0.6s, filter 0.6s;filter:brightness(0.9)}
+.card:active img, .card:hover img{transform:scale(1.03);filter:brightness(1.1)}
+.card::after{content:"";position:absolute;inset:0;box-shadow:inset 0 -120px 80px -60px rgba(0,0,0,0.8);pointer-events:none;opacity:0;transition:0.3s}
+.card:hover::after{opacity:1}
+
+/* MODAL NETFLIX */
+#modal{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,0.95);display:none;align-items:center;justify-content:center;padding:10px}
+#modal.open{display:flex}
+#modal img{max-width:100%;max-height:90vh;object-fit:contain;animation:zoomIn 0.35s cubic-bezier(.2,.8,.2,1)}
+@keyframes zoomIn{from{transform:scale(0.85);opacity:0}to{transform:scale(1);opacity:1}}
+#close{position:fixed;top:15px;right:18px;font-size:32px;color:#fff;background:rgba(255,255,255,0.12);width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;backdrop-filter:blur(10px)}
+#caption{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.6);padding:8px 16px;border-radius:20px;font-size:13px;color:#aaa;backdrop-filter:blur(10px)}
 </style>
 </head>
 <body>
 <h1>TheFurquanWall</h1>
-<img src="IMG_1505.jpeg">
-<img src="IMG_1490.jpeg">
-<img src="79c07953-cddb-a7c5-4f8a-8d2e-1234567890ab.jpeg" onerror="this.style.display='none'">
-<img src="9666fa05-87c1-40ee-769b-0644d17ffb63.jpeg">
+<div id="wall"></div>
+
+<div id="modal">
+  <div id="close">×</div>
+  <img id="modalImg" src="">
+  <div id="caption">thefurquanwall.github.io</div>
+</div>
+
 <script>
-// Si los nombres de arriba fallan, carga todo automatico
-(async()=>{
-  let imgs=document.querySelectorAll("img");
-  let failed=0; imgs.forEach(i=>{ if(!i.complete||i.naturalWidth==0) failed++; });
-  if(failed>0){
-    let r=await fetch("https://api.github.com/repos/thefurquanwall/thefurquanwall.github.io/contents");
-    let f=await r.json();
-    document.body.innerHTML="<h1 style='color:#fff;text-align:center;font-family:serif;padding:20px'>TheFurquanWall</h1>";
-    f.filter(x=>/\.jpe?g$/i.test(x.name)).forEach(x=>{
-      let im=document.createElement("img");
-      im.src=x.name; im.style.width="100%"; im.style.display="block"; im.style.marginBottom="3px";
-      document.body.appendChild(im);
+// Carga automatica de TODAS tus fotos, no importa como se llamen
+async function loadWall(){
+  try{
+    const res = await fetch("https://api.github.com/repos/thefurquanwall/thefurquanwall.github.io/contents?"+Date.now());
+    const files = await res.json();
+    let imgs = files.filter(f=>/\.jpe?g$|\.webp$/i.test(f.name) && f.name!=="IMG_1491.jpeg" && f.name!=="IMG_1492.jpeg").map(f=>f.name);
+    // Si tenes los viejos IMG_1491/1492 con rayas, los ignora. Usa solo los limpios y los con codigo raro.
+    // Orden cinematografico: 1505 primero, despues los demas
+    imgs.sort().reverse();
+    // Forzar orden que queres: 1505, 1490, luego los dos limpios
+    let ordered = [];
+    if(imgs.includes("IMG_1505.jpeg")) ordered.push("IMG_1505.jpeg");
+    if(imgs.includes("IMG_1490.jpeg")) ordered.push("IMG_1490.jpeg");
+    imgs.forEach(n=>{
+      if(!ordered.includes(n) && !n.startsWith("IMG_1491") && !n.startsWith("IMG_1492")) ordered.push(n);
     });
+
+    const wall = document.getElementById("wall");
+    ordered.forEach(src=>{
+      let div=document.createElement("div");
+      div.className="card";
+      let im=document.createElement("img");
+      im.src=src+"?v="+Date.now();
+      im.loading="lazy";
+      div.appendChild(im);
+      div.onclick=()=>openModal(src);
+      wall.appendChild(div);
+    });
+  }catch(e){
+    document.getElementById("wall").innerHTML="<p style='text-align:center;padding:40px;color:#666'>Refresca la pagina</p>";
   }
-})();
+}
+function openModal(src){
+  document.getElementById("modalImg").src=src;
+  document.getElementById("modal").classList.add("open");
+  document.body.style.overflow="hidden";
+}
+function closeModal(){
+  document.getElementById("modal").classList.remove("open");
+  document.body.style.overflow="";
+}
+document.getElementById("modal").onclick=closeModal;
+document.getElementById("close").onclick=closeModal;
+loadWall();
 </script>
 </body>
 </html>
