@@ -2,17 +2,35 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TheFurquanWall</title>
 <style>
 body{background:#000;margin:0;padding:0}
-img{width:100%;display:block;margin-bottom:2px}
-h1{color:#fff;text-align:center;font-family:serif;padding:20px}
+h1{color:#fff;text-align:center;font-family:serif;padding:20px;margin:0}
+img{width:100%;display:block;margin-bottom:3px}
 </style>
 </head>
 <body>
 <h1>TheFurquanWall</h1>
 <img src="IMG_1505.jpeg">
 <img src="IMG_1490.jpeg">
-<img src="79c07953-4f8a-4c3d-b5e6-1234567890ab.jpeg" onerror="this.src='a2c0bc50-63cf-40ee-769b-0644d17ffb63.jpeg'">
+<img src="79c07953-cddb-a7c5-4f8a-8d2e-1234567890ab.jpeg" onerror="this.style.display='none'">
 <img src="9666fa05-87c1-40ee-769b-0644d17ffb63.jpeg">
+<script>
+// Si los nombres de arriba fallan, carga todo automatico
+(async()=>{
+  let imgs=document.querySelectorAll("img");
+  let failed=0; imgs.forEach(i=>{ if(!i.complete||i.naturalWidth==0) failed++; });
+  if(failed>0){
+    let r=await fetch("https://api.github.com/repos/thefurquanwall/thefurquanwall.github.io/contents");
+    let f=await r.json();
+    document.body.innerHTML="<h1 style='color:#fff;text-align:center;font-family:serif;padding:20px'>TheFurquanWall</h1>";
+    f.filter(x=>/\.jpe?g$/i.test(x.name)).forEach(x=>{
+      let im=document.createElement("img");
+      im.src=x.name; im.style.width="100%"; im.style.display="block"; im.style.marginBottom="3px";
+      document.body.appendChild(im);
+    });
+  }
+})();
+</script>
 </body>
 </html>
