@@ -2,71 +2,59 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>THE FURQUAN WALL</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
-body{height:100vh;background:url('IMG_1740.png') center/cover no-repeat #111;display:flex;flex-direction:column;justify-content:flex-end;position:relative}
-body::before{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.9),rgba(0,0,0,.2) 60%)}
-.card{position:relative;z-index:2;background:rgba(18,18,18,.95);border:1px solid #555;border-radius:16px;margin:20px;padding:24px}
-.form-row{display:flex;gap:10px}
-input{flex:1;background:#2a2a2a;border:1px solid #888;border-radius:10px;padding:14px;color:#fff;outline:none}
-button{background:#8a8a8a;border:none;border-radius:10px;padding:14px 22px;font-weight:700;cursor:pointer}
-#respuesta{display:none;position:fixed;inset:0;background:#0a0a0a;z-index:99;padding:16px;overflow:auto}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,system-ui}
+body{height:100dvh;background:#000;display:flex;flex-direction:column}
+.top{flex:1;background:url('IMG_1740.png') center top / cover no-repeat;position:relative}
+.top::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 30%,#000 95%)}
+.bottom{background:#000;padding:24px 16px 32px}
+.title{color:#fff;font-size:12px;letter-spacing:2px;opacity:.7;margin-bottom:20px}
+.box{display:flex;gap:12px;background:#111;border:1px solid #222;border-radius:14px;padding:6px}
+.box input{flex:1;background:transparent;border:none;color:#fff;padding:12px;outline:none;font-size:15px}
+.box button{background:#fff;color:#000;border:none;border-radius:10px;padding:0 22px;font-weight:800;font-size:13px;letter-spacing:1px}
+#respuesta{display:none;position:fixed;inset:0;background:#050505;z-index:99;padding:20px;overflow:auto}
+.card{background:#111;border:1px solid #222;border-radius:20px;padding:20px}
 </style>
 </head>
 <body>
 
-<div class="card" style="position:relative;z-index:2">
-  <div style="color:#e5e5e5;font-size:13px;letter-spacing:1px;margin-bottom:20px">THE FURQUAN WALL · FARSA O VERDAD</div>
-  <form id="wallForm" class="form-row">
-    <input type="text" id="link" placeholder="Ingrese el enlace a verificar..." required>
-    <button type="submit">ENVIAR</button>
+<div class="top"></div>
+
+<div class="bottom">
+  <div class="title">THE FURQUAN WALL · FARSA O VERDAD</div>
+  <form id="wallForm" class="box">
+    <input id="link" type="text" placeholder="Pega el link aquí..." required>
+    <button>ENVIAR</button>
   </form>
 </div>
 
 <div id="respuesta">
-  <div style="max-width:420px;width:100%;margin:auto">
-    <div style="text-align:center;color:#fff;margin-bottom:16px"><b>THE FURQUAN WALL</b><div style="font-size:11px;color:#888">FARSA O VERDAD</div></div>
-    <div id="cajaResult" style="background:#141414;border:1px solid #333;border-radius:16px;padding:20px">
-      <div id="headerResult"></div>
-      <hr style="margin:14px 0;border-color:#222">
-      <div id="dominioResult" style="color:#fff;font-weight:bold"></div>
-      <div id="checksResult" style="background:#0f0f0f;border-radius:12px;padding:12px;margin-top:12px;font-size:14px;color:#fff;line-height:1.8"></div>
-    </div>
-    <div style="background:#141414;border:1px solid #333;border-radius:16px;padding:16px;margin-top:12px">
-      <div style="color:#666;font-size:11px;margin-bottom:6px">DETALLES</div>
-      <div id="detallesResult" style="color:#fff;font-size:13px;line-height:1.4"></div>
-    </div>
-    <button onclick="document.getElementById('respuesta').style.display='none'" style="width:100%;margin-top:16px;padding:16px;background:#fff;color:#000;border-radius:12px;font-weight:bold">CERRAR</button>
-  </div>
+ <div style="max-width:400px;margin:40px auto 0">
+  <div id="headerResult"></div>
+  <div id="dominioResult" style="margin:20px 0;color:#fff;font-weight:700;font-size:18px"></div>
+  <div class="card" id="checksResult" style="color:#fff;line-height:2"></div>
+  <div class="card" style="margin-top:12px"><div style="color:#666;font-size:10px;letter-spacing:1px;margin-bottom:8px">DETALLES</div><div id="detallesResult" style="color:#aaa;font-size:13px;line-height:1.5"></div></div>
+  <button onclick="document.getElementById('respuesta').style.display='none'" style="width:100%;margin-top:20px;background:#fff;color:#000;border:none;border-radius:14px;padding:18px;font-weight:800">CERRAR</button>
+ </div>
 </div>
 
 <script>
-const form = document.getElementById('wallForm');
-form.addEventListener('submit', (e)=>{
-  e.preventDefault();
-  let url = document.getElementById('link').value.toLowerCase().trim();
-  let caja = document.getElementById('respuesta');
-  let header = document.getElementById('headerResult');
-  let dominio = document.getElementById('dominioResult');
-  let checks = document.getElementById('checksResult');
-  let detalles = document.getElementById('detallesResult');
-  
-  caja.style.display='block';
-  dominio.innerHTML = '🌐 Dominio: '+url;
-
-  if(url.includes('511tactical.com') && url.length < 30){
-    // VERDAD COMPLETA
-    header.innerHTML = '<div style="display:flex;gap:12px;align-items:center"><div style="width:36px;height:36px;border-radius:50%;background:#4ade80;display:grid;place-items:center">✓</div><div><div style="background:#4ade80;color:#000;display:inline-block;padding:4px 12px;border-radius:20px;font-weight:bold">VERDAD</div><div style="color:#4ade80;font-size:11px">VERIFICADO — RESULTADO POSITIVO</div></div></div>';
-    checks.innerHTML = '✅ Dominio oficial 5.11 Tactical USA desde 1968<br>✅ Registrado 2003<br>✅ Seguro';
-    detalles.innerHTML = 'El dominio 511tactical.com es el sitio oficial de 5.11 Tactical, marca estadounidense de indumentaria y equipo táctico. Dominio activo desde 2003 con SSL válido.';
-  } else {
-    // FARSA COMPLETA
-    header.innerHTML = '<div style="display:flex;gap:12px;align-items:center"><div style="width:36px;height:36px;border-radius:50%;background:#ff4444;display:grid;place-items:center;color:#fff">!</div><div><div style="background:#ff4444;color:#fff;display:inline-block;padding:4px 12px;border-radius:20px;font-weight:bold">FARSA</div><div style="color:#ff4444;font-size:11px">PELIGRO — POSIBLE ESTAFA</div></div></div>';
-    checks.innerHTML = '❌ Dominio sospechoso o clon<br>❌ Usa .shop / .xyz / ofertas falsas<br>❌ Riesgo de robo de datos';
-    detalles.innerHTML = 'El dominio <b>'+url+'</b> presenta características de sitio fraudulento: dominio reciente, nombre similar a marca conocida con palabras como oferta, descuento 90%, o extensiones no oficiales. No ingreses tu tarjeta. Nosotros los descubrimos.';
-  }
+document.getElementById('wallForm').addEventListener('submit', e=>{
+ e.preventDefault();
+ let url=document.getElementById('link').value.toLowerCase().trim();
+ document.getElementById('respuesta').style.display='block';
+ document.getElementById('dominioResult').innerHTML=url;
+ if(url.includes('511tactical.com')){
+   document.getElementById('headerResult').innerHTML='<div style="display:flex;align-items:center;gap:12px"><div style="background:#00ff88;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;color:#000;font-size:20px">✓</div><div><div style="color:#00ff88;font-weight:900;font-size:20px">VERDAD</div><div style="color:#00ff88;font-size:10px;opacity:.8">VERIFICADO · RESULTADO POSITIVO</div></div></div>';
+   document.getElementById('checksResult').innerHTML='✅ Dominio oficial 5.11 Tactical USA<br>✅ Desde 1968 · Registrado 2003<br>✅ SSL válido · Seguro';
+   document.getElementById('detallesResult').innerHTML='511tactical.com es el sitio oficial de 5.11 Tactical. Marca estadounidense de equipo táctico con más de 50 años de historia.';
+ } else {
+   document.getElementById('headerResult').innerHTML='<div style="display:flex;align-items:center;gap:12px"><div style="background:#ff3333;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:20px">!</div><div><div style="color:#ff3333;font-weight:900;font-size:20px">FARSA</div><div style="color:#ff3333;font-size:10px">PELIGRO · POSIBLE ESTAFA</div></div></div>';
+   document.getElementById('checksResult').innerHTML='❌ Dominio no oficial<br>❌ Posible clon para robar datos<br>❌ No ingreses tu tarjeta';
+   document.getElementById('detallesResult').innerHTML='El dominio <b>'+url+'</b> no coincide con registros oficiales. Cuidado con ofertas 90% off.';
+ }
 });
 </script>
 </body>
