@@ -5,66 +5,66 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>THE FURQUAN WALL</title>
 <style>
-*{margin:0;padding:1;box-sizing:border-box;font-family:system-ui,-apple-system}
-body{height:100dvh;background:#000;display:flex;flex-direction:column;overflow:hidden}
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
+body{height:100dvh;background:#000;display:flex;flex-direction:column}
 .hero{flex:1;background:url('IMG_1757.jpeg') center 30%/cover no-repeat}
 .panel{background:#000;padding:12px}
-.card{background:#0a0a0a;border:1px solid #2a2a2a;border-radius:14px;padding:26px 18px 16px}
-.title{color:#9a9a9a;font-size:12px;letter-spacing:1px;margin-bottom:22px;font-weight:500}
-.row{display:flex;gap:10px;align-items:center}
-.row input{flex:1;background:#151515;border:1px solid #333;border-radius:9px;padding:15px 14px;color:#fff;outline:none;font-size:15px}
-.row input::placeholder{color:#666}
-.row button{background:#3a3a3a;color:#cfcfcf;border:0;border-radius:9px;padding:15px 20px;font-weight:800;font-size:12px;letter-spacing:.5px;cursor:pointer}
-.foot{text-align:center;color:#555;font-size:11px;margin-top:24px;letter-spacing:.3px}
+.card{background:#0c0c0c;border:1px solid #2a2a2a;border-radius:14px;padding:24px 18px 16px}
+.title{color:#9a9a9a;font-size:12px;letter-spacing:1px;margin-bottom:22px}
+.row{display:flex;gap:10px}
+.row input{flex:1;background:#161616;border:1px solid #333;border-radius:9px;padding:15px;color:#fff;outline:none}
+.row button{background:#fff;color:#000;border:0;border-radius:9px;padding:15px 20px;font-weight:900;font-size:12px}
+.foot{text-align:center;color:#555;font-size:11px;margin-top:22px}
 #res{display:none;position:fixed;inset:0;background:#000;z-index:99;padding:16px;overflow:auto}
-.box{background:#111;border:1px solid #222;border-radius:14px;padding:16px;margin-top:12px}
+.box{background:#111;border:1px solid #222;border-radius:14px;padding:16px;margin-top:14px}
 </style>
 </head>
 <body>
-
 <div class="hero"></div>
-
 <div class="panel">
-  <div class="card">
-    <div class="title">THE FURQUAN WALL · FARSA O VERDAD</div>
-    <form id="f" class="row">
-      <input id="u" placeholder="Ingrese el enlace a verificar..." required>
-      <button>ENVIAR</button>
-    </form>
-    <div class="foot">www.thefurquanwall.github.io</div>
-  </div>
+<div class="card">
+<div class="title">THE FURQUAN WALL · FARSA O VERDAD</div>
+<form id="f" class="row"><input id="u" placeholder="Pega el link... ej: 511tactical.com" required><button>ENVIAR</button></form>
+<div class="foot">www.thefurquanwall.github.io</div>
+</div>
 </div>
 
-<div id="res">
-  <div style="max-width:420px;margin:20px auto;color:#fff">
-    <div id="h"></div>
-    <div id="d" style="margin:18px 0;font-size:18px;font-weight:700;word-break:break-all;color:#fff"></div>
-    <div id="c" class="box" style="line-height:2.1;font-size:14px"></div>
-    <div class="box"><div style="color:#666;font-size:10px;letter-spacing:1px">DETALLES</div><div id="t" style="color:#999;font-size:13px;margin-top:8px;line-height:1.6"></div></div>
-    <button onclick="res.style.display='none'" style="width:100%;margin-top:20px;padding:18px;border-radius:14px;border:none;font-weight:900;background:#fff;color:#000;font-size:14px">CERRAR Y VERIFICAR OTRO</button>
-  </div>
-</div>
+<div id="res"><div style="max-width:420px;margin:20px auto;color:#fff"><div id="h"></div><div id="d" style="margin:18px 0;font-size:20px;font-weight:800;word-break:break-all"></div><div id="c" class="box" style="line-height:2.1;font-size:14px"></div><div class="box"><div style="color:#666;font-size:10px;letter-spacing:1px">DETALLES</div><div id="t" style="color:#999;font-size:13px;margin-top:8px;line-height:1.6"></div></div><button onclick="res.style.display='none'" style="width:100%;margin-top:20px;padding:18px;border-radius:14px;border:none;font-weight:900;background:#fff">CERRAR Y VERIFICAR OTRO</button></div></div>
 
 <script>
-const oficiales = ['511tactical.com','thefurquanwall.github.io'];
-f.onsubmit = e => {
-  e.preventDefault();
-  let v = u.value.trim().toLowerCase();
-  if(!v) return;
-  res.style.display='block';
-  d.textContent = u.value.trim();
-  let esOficial = oficiales.some(o=>v.includes(o));
-  if(esOficial){
-    h.innerHTML='<div style="color:#00ff88;font-weight:900;font-size:28px">VERDAD ✓</div><div style="color:#00ff88;font-size:11px;margin-top:4px;letter-spacing:1px">DOMINIO VERIFICADO</div>';
-    c.innerHTML='✅ Dominio oficial verificado<br>✅ Conexión segura<br>✅ Historial limpio';
-    t.textContent = v.includes('511') ? '511tactical.com es el dominio oficial de 5.11 Tactical USA, registrado desde 2003. Es 100% seguro.' : 'The Furquan Wall es el verificador oficial.';
-  }else{
-    h.innerHTML='<div style="color:#ff3333;font-weight:900;font-size:28px">FARSA !</div><div style="color:#ff3333;font-size:11px;margin-top:4px;letter-spacing:1px">PELIGRO DETECTADO</div>';
-    c.innerHTML='❌ Dominio no oficial<br>❌ Posible clon / phishing<br>❌ No ingreses datos ni tarjeta';
-    t.textContent = 'El dominio '+v+' no coincide con los oficiales. No compres ahí, es probable estafa.';
-  }
+const oficiales=["511tactical.com","5.11","thefurquanwall.github.io","511.cl","thefurquanwall"];
+const tacticoKeywords=["511","5.11","tactical","5-11"];
+const dominiosLegit=["facebook.com","instagram.com","google.com","youtube.com","x.com","twitter.com","tiktok.com","mercadolibre.com","amazon.com","whatsapp.com"];
+
+f.onsubmit=e=>{
+ e.preventDefault();
+ let raw=u.value.trim();
+ let v=raw.toLowerCase();
+ let dominio=v.replace(/^https?:\/\//,'').replace(/^www\./,'').split('/')[0];
+ res.style.display='block'; d.textContent=dominio;
+
+ let esOficial=oficiales.some(o=>v.includes(o));
+ let esLegit=dominiosLegit.some(o=>dominio===o || dominio.endsWith('.'+o));
+ let esTacticoSospechoso=tacticoKeywords.some(k=>v.includes(k)) && !esOficial;
+
+ if(esOficial){
+  h.innerHTML='<div style="color:#00ff88;font-weight:900;font-size:32px">VERDAD ✓</div><div style="color:#00ff88;font-size:11px;letter-spacing:1px">DOMINIO OFICIAL VERIFICADO</div>';
+  c.innerHTML='✅ Dominio oficial verificado<br>✅ Conexión segura<br>✅ Historial limpio<br>✅ Marca registrada';
+  t.textContent=dominio+' es el dominio oficial de 5.11 Tactical USA, registrado desde 2003. Es 100% seguro para comprar.';
+ } else if(esTacticoSospechoso){
+  h.innerHTML='<div style="color:#ff2a2a;font-weight:900;font-size:32px">FARSA !</div><div style="color:#ff2a2a;font-size:11px;letter-spacing:1px">PELIGRO DETECTADO - CLON</div>';
+  c.innerHTML='❌ Dominio NO oficial<br>❌ Usa nombre 511 para engañar<br>❌ Posible phishing / clon<br>❌ No ingreses tarjeta';
+  t.textContent='El dominio '+dominio+' usa el nombre 511 pero NO es el oficial. El único oficial es 511tactical.com. No compres ahí.';
+ } else if(esLegit){
+  h.innerHTML='<div style="color:#00ff88;font-weight:900;font-size:32px">VERDAD ✓</div><div style="color:#00ff88;font-size:11px;letter-spacing:1px">DOMINIO LEGÍTIMO</div>';
+  c.innerHTML='✅ Dominio legítimo reconocido<br>✅ Empresa real verificada<br>✅ Conexión segura<br>✅ Sin relación con clones tácticos';
+  t.textContent=dominio+' es un dominio legítimo y oficial de su marca ('+dominio+'). No es un clon táctico. Es seguro, pero no es parte de 5.11 Tactical.';
+ } else {
+  h.innerHTML='<div style="color:#ffcc00;font-weight:900;font-size:28px">DESCONOCIDO ?</div><div style="color:#ffcc00;font-size:11px;letter-spacing:1px">NO ESTÁ EN BASE DE DATOS</div>';
+  c.innerHTML='⚠️ Dominio no está en lista oficial<br>⚠️ No usa nombre 511<br>⚠️ Verificá antes de comprar<br>⚠️ Buscá reseñas';
+  t.textContent=dominio+' no está en nuestra base de datos de tiendas tácticas oficiales ni de clones conocidos. Si es tienda táctica, verificá que sea 511tactical.com. Si no, investigá reseñas antes de pagar.';
+ }
 }
 </script>
-
 </body>
 </html>
