@@ -1,19 +1,64 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-<title>THE FURQUAN WALL</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE FURQUAN WALL - FARSA O VERDAD</title>
 <style>
-* {margin:0;padding:0;box-sizing:border-box}
-body{background:#000;display:flex;flex-direction:column;min-height:100vh;min-height:100dvh}
-img{width:100%;height:auto;flex:1;object-fit:contain;background:#000}
-.footer{padding:18px;text-align:center;background:#000}
-.footer a{background:#ffe600;color:#000;padding:14px 32px;border-radius:30px;font-family:Arial Black;text-decoration:none;font-size:14px;display:inline-block}
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,sans-serif}
+body{height:100vh;background:url('IMG_1740.png') center/cover no-repeat;background-color:#111;display:flex;flex-direction:column;justify-content:flex-end;position:relative}
+body::before{content:'';position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.2) 60%)}
+.card{position:relative;z-index:2;background:rgba(18,18,18,0.95);border:1px solid #555;border-radius:16px;margin:20px;padding:28px 24px}
+.title{color:#e5e5e5;font-size:14px;letter-spacing:1px;margin-bottom:28px}
+.form-row{display:flex;gap:12px}
+input{flex:1;background:#2a2a2a;border:1px solid #888;border-radius:10px;padding:14px 16px;color:white;outline:none}
+input::placeholder{color:#aaa}
+button{background:#8a8a8a;color:#111;border:none;border-radius:10px;padding:14px 28px;font-weight:700;cursor:pointer}
+.web{position:relative;z-index:2;text-align:center;color:#888;font-size:12px;padding:16px 0 24px}
+#resultado{display:none;position:fixed;inset:0;z-index:10;background:rgba(0,0,0,0.85);align-items:center;justify-content:center;padding:20px}
+.result-box{background:#1a1a1a;border:1px solid #666;border-radius:16px;padding:24px;width:100%;max-width:400px;text-align:center;color:white}
 </style>
 </head>
 <body>
-<img src="IMG_1732.jpeg">
-<div class="footer"><a href="https://instagram.com/thefurquanwall">INSTAGRAM →</a></div>
-</body>
-</html>
+
+<div class="card">
+  <div class="title">THE FURQUAN WALL · FARSA O VERDAD</div>
+  <form id="wallForm" class="form-row">
+    <input type="url" id="link" name="enlace" placeholder="Ingrese el enlace a verificar..." required>
+    <button type="submit">ENVIAR</button>
+  </form>
+</div>
+
+<div class="web">www.thefurquanwall.github.io</div>
+
+<!-- RESULTADO -->
+<div id="resultado">
+  <div class="result-box">
+    <h2 id="resTitulo">ANALIZANDO...</h2>
+    <p id="resTexto" style="margin:16px 0;color:#aaa;word-break:break-all"></p>
+    <button onclick="cerrar()" style="width:100%">CERRAR</button>
+  </div>
+</div>
+
+<script>
+const form = document.getElementById('wallForm');
+const resultado = document.getElementById('resultado');
+const resTitulo = document.getElementById('resTitulo');
+const resTexto = document.getElementById('resTexto');
+
+form.addEventListener('submit', function(e){
+  e.preventDefault();
+  let url = document.getElementById('link').value;
+  
+  // Mostrar analizando
+  resultado.style.display='flex';
+  resTitulo.textContent='ANALIZANDO ENLACE...';
+  resTexto.textContent=url;
+
+  // Simulación de análisis profesional (aquí después conectás tu IA real)
+  setTimeout(()=>{
+    if(url.includes('http') && url.length > 10){
+      resTitulo.textContent='ENLACE RECIBIDO ✓';
+      resTexto.innerHTML = `Enlace: <b>${url}</b><br><br>En revisión por The Furquan Wall.<br>Te contactamos por WhatsApp si es FARSA.`;
+      
+      // Enviar a tu email/WhatsApp via
